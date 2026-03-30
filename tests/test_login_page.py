@@ -1,3 +1,7 @@
+﻿import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import pytest
 from selenium import webdriver
 from page_object.logged_in_successfully import LoggedInSuccessfullyPage
@@ -11,8 +15,9 @@ class TestPositiveScenarios:
     def test_positive_login(self,driver):
         login_page = LoginPage(driver)
         login_page.open()
-        login_page.execute_login("student", "Password123")
+        login_page.execute_login(os.environ.get("TEST_USERNAME", ""), os.environ.get("TEST_PASSWORD", ""))
         logged_in_page = LoggedInSuccessfullyPage(driver)
         assert logged_in_page.expected_url == logged_in_page.current_url, "Actual url is not the same as expected"
         assert logged_in_page.header == "Logged In Successfully", "Header is no expected"
         assert logged_in_page.is_logout_button_displayed(), "Logout button should be visible"
+

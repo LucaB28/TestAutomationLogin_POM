@@ -1,3 +1,7 @@
+﻿import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import time
 
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -6,7 +10,7 @@ from page_object.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    __url = "https://practicetestautomation.com/practice-test-login/"
+    __url = os.environ.get("TEST_URL", "https://practicetestautomation.com/practice-test-login/")
     __username_field = ("xpath", "/html//input[@id='username']")
     __password_field = ("xpath", "/html//input[@id='password']")
     __submit_button = ("xpath", "/html//button[@id='submit']")
@@ -25,4 +29,5 @@ class LoginPage(BasePage):
 
     def get_error_message(self):
         return super().get_text(self.__error_message)
+
 
